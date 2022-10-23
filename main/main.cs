@@ -12,4 +12,26 @@ public class Search
         }
         return false;
     }
+
+    static public bool binarySearch(int[] haystack, int needle) {
+
+        var lo = 0;
+        var hi = haystack.Length;
+
+        do
+        {
+            int mid = lo + (hi - lo) / 2;
+            var value = haystack[mid];
+
+            if(value == needle) {
+                return true;
+            } else if(value > needle) {
+                hi = mid;
+            } else {
+                lo = mid + 1;
+            }
+            
+        } while (lo < hi);
+        return false;
+    }
 }
