@@ -34,4 +34,27 @@ public class Search
         } while (lo < hi);
         return false;
     }
+
+    static public int twoCrystalBalls(bool[] breaks) {
+        var jumpAmount = (int)Math.Sqrt(breaks.Length);
+        var i = jumpAmount;
+        for(; i < breaks.Length; i += jumpAmount) {
+            if(breaks[i]) {
+                break;
+            }
+        }
+        i -= jumpAmount;
+
+        for (var j = 0; j < jumpAmount && i < breaks.Length; ++j, ++i)
+        {
+            if (breaks[i])
+            {
+                return i;
+                
+            }
+            
+        }
+        return -1;
+
+    }
 }
