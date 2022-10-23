@@ -1,0 +1,5 @@
+main/bin
+main/obj
+
+main.tests/obj
+main.tests/bin
