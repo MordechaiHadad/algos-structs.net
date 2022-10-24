@@ -57,17 +57,6 @@ public class Tests
     [Test]
     public void TwoCrystalBallsTestNegative()
     {
-        var rand = new Random();
-        int idx = (int)rand.NextDouble() * 10000;
-
-        var data = Enumerable.Repeat(false, 10000).ToArray();
-
-
-        for (var i = idx; i < 10000; ++i)
-        {
-            data[i] = true;
-        }
-
         Assert.AreEqual(Search.twoCrystalBalls(Enumerable.Repeat(false, 821).ToArray()), -1);
     }
 }
