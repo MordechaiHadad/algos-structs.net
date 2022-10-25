@@ -59,4 +59,50 @@ public class Tests
     {
         Assert.AreEqual(Search.twoCrystalBalls(Enumerable.Repeat(false, 821).ToArray()), -1);
     }
+
+    [Test]
+    public void BubbleSortTest()
+    {
+        int[] array = { 9, 3, 7, 4, 69, 420, 42 };
+        Sort.bubbleSort(array);
+        int[] sorted_array = { 3, 4, 7, 9, 42, 69, 420 };
+        Assert.AreEqual(array, sorted_array);
+    }
+
+    [Test]
+    public void QueueLengthTest()
+    {
+        var list = new Queue<int>();
+        list.enqeue(4);
+        list.enqeue(1);
+        list.enqeue(30);
+        list.deque();
+
+        Assert.AreEqual(list.length, 2);
+
+    }
+
+    [Test]
+    public void QueueDequeTest()
+    {
+        var list = new Queue<int>();
+        list.enqeue(4);
+        list.enqeue(1);
+        list.enqeue(30);
+        list.deque();
+        list.deque();
+
+        Assert.AreEqual(list.deque(), 30);
+    }
+
+    [Test]
+    public void QueuePeekTest()
+    {
+        var list = new Queue<int>();
+        list.enqeue(4);
+        list.enqeue(1);
+        list.enqeue(30);
+
+        Assert.AreEqual(list.peek(), 4);
+    }
 }
