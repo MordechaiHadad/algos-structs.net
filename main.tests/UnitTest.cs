@@ -105,4 +105,40 @@ public class Tests
 
         Assert.AreEqual(list.peek(), 4);
     }
+
+    [Test]
+    public void StackLengthTest()
+    {
+        var list = new Stack<int>();
+        list.push(4);
+        list.push(1);
+        list.push(30);
+        list.pop();
+
+        Assert.AreEqual(list.length, 2);
+    }
+
+    [Test]
+    public void StackPopTest()
+    {
+        var list = new Stack<int>();
+        list.push(4);
+        list.push(1);
+        list.push(30);
+        list.pop();
+        list.pop();
+
+        Assert.AreEqual(list.pop(), 4);
+    }
+
+    [Test]
+    public void StackPeekTest()
+    {
+        var list = new Stack<int>();
+        list.push(4);
+        list.push(1);
+        list.push(30);
+
+        Assert.AreEqual(list.peek(), 30);
+    }
 }
