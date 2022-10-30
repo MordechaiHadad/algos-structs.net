@@ -141,4 +141,13 @@ public class Tests
 
         Assert.AreEqual(list.peek(), 30);
     }
+
+    [Test]
+    public void QuickSortTest() {
+        int[] array = {9, 3, 7, 4, 69, 420, 42};
+        int[] sortedArray = {3, 4, 7, 9, 42, 69, 420};
+
+        Sort.quickSort(array);
+        Assert.AreEqual(array, sortedArray);
+    }
 }
