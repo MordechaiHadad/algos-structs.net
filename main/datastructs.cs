@@ -119,3 +119,173 @@ public class Stack<T>
     }
 
 }
+
+class Node<T>
+{
+    public T? value { get; set; }
+    public Node<T>? previous { get; set; }
+    public Node<T>? next { get; set; }
+}
+
+public class DoublyLinkedList<T>
+{
+    public uint length { get; private set; }
+    private Node<T>? head { get; set; }
+    private Node<T>? tail { get; set; }
+
+    public DoublyLinkedList()
+    {
+        this.length = 0;
+        this.head = null;
+        this.tail = null;
+    }
+
+    public void prepend(T item)
+    {
+        var node = new Node<T> { value = item, previous = null, next = null };
+        this.length += 1;
+        if (this.head == null)
+        {
+            this.head = node;
+            this.tail = node;
+            return;
+        }
+
+        node.next = this.head;
+        this.head.previous = node;
+        this.head = node;
+
+    }
+
+    public void insertAt(T item, uint idx)
+    {
+        if (idx > this.length)
+        {
+            throw new Exception("Out of bounds");
+        }
+
+
+        if (idx == this.length)
+        {
+            this.append(item);
+            return;
+        }
+        else if (idx == 0)
+        {
+            this.prepend(item);
+            return;
+        }
+
+        this.length += 1;
+        var current = this.getAt(idx);
+
+        var node = new Node<T> { value = item, previous = null, next = null };
+
+        node.next = current;
+        node.previous = current?.previous;
+        current!.previous = node;
+
+        if (node.previous != null)
+        {
+            node.previous.next = current;
+        }
+    }
+
+    public void append(T item)
+    {
+        this.length += 1;
+        var node = new Node<T> { value = item, previous = null, next = null };
+        if (this.tail == null)
+        {
+            this.head = node;
+            this.tail = node;
+            return;
+        }
+
+        node.previous = this.tail;
+        this.tail!.next = node;
+
+        this.tail = node;
+    }
+
+    public T? remove(T item)
+    {
+        var current = this.head;
+        for (int i = 0; current != null && i < this.length; i++)
+        {
+            if (current.value!.Equals(item))
+            {
+                break;
+            }
+            current = current.next;
+        }
+        if (current == null)
+        {
+            return default;
+        }
+
+        return removeNode(current);
+    }
+
+    public T? get(uint idx)
+    {
+        return this.getAt(idx)!.value;
+
+    }
+
+    public T? removeAt(uint idx)
+    {
+        var node = this.getAt(idx);
+
+        if (node == null)
+        {
+            return default;
+        }
+        return this.removeNode(node);
+
+    }
+
+    private T? removeNode(Node<T> node)
+    {
+        this.length -= 1;
+        if (this.length == 0)
+        {
+            var temp = this.head!.value;
+            this.head = null;
+            this.tail = null;
+            return temp;
+        }
+
+        if (node.previous != null)
+        {
+            node.previous.next = node.next;
+        }
+        if (node.next != null)
+        {
+            node.next.previous = node.previous;
+        }
+
+        if (node.Equals(this.head))
+        {
+            this.head = node.next;
+        }
+        if (node.Equals(this.tail))
+        {
+            this.tail = node.previous;
+        }
+        node.previous = null;
+        node.next = null;
+        return node.value;
+    }
+
+    private Node<T>? getAt(uint idx)
+    {
+        var current = this.head;
+        for (int i = 0; current != null && i < idx; i++)
+        {
+            current = current.next;
+        }
+        return current;
+    }
+
+}

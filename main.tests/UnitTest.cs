@@ -143,11 +143,31 @@ public class Tests
     }
 
     [Test]
-    public void QuickSortTest() {
-        int[] array = {9, 3, 7, 4, 69, 420, 42};
-        int[] sortedArray = {3, 4, 7, 9, 42, 69, 420};
+    public void QuickSortTest()
+    {
+        int[] array = { 9, 3, 7, 4, 69, 420, 42 };
+        int[] sortedArray = { 3, 4, 7, 9, 42, 69, 420 };
 
         Sort.quickSort(array);
         Assert.AreEqual(array, sortedArray);
+    }
+
+    [Test]
+    public void DoublyLinkedListTest()
+    {
+        var list = new DoublyLinkedList<int>();
+        list.append(5);
+        list.append(7);
+        list.append(9);
+
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(list.get(2), 9);
+            Assert.AreEqual(list.removeAt(1), 7);
+            Assert.AreEqual(list.length, 2);
+            list.append(11);
+            Assert.AreEqual(list.removeAt(1), 9);
+        });
+
     }
 }
