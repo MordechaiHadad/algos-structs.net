@@ -289,3 +289,10 @@ public class DoublyLinkedList<T>
     }
 
 }
+
+public class BinaryTree<T>
+{
+    public T? value { get; set; }
+    public BinaryTree<T>? left { get; set; }
+    public BinaryTree<T>? right { get; set; }
+}

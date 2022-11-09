@@ -68,6 +68,66 @@ public class Search
         return -1;
 
     }
+
+    static int[] preOrderWalk(BinaryTree<int> current, List<int> path)
+    {
+        if (current == null)
+        {
+            return path.ToArray();
+        }
+
+        path.Add(current.value);
+
+        preOrderWalk(current.left!, path);
+        preOrderWalk(current.right!, path);
+
+        return path.ToArray();
+    }
+
+    static public int[] preOrderSearch(BinaryTree<int> head)
+    {
+        return preOrderWalk(head, new List<int>());
+    }
+
+    static int[] inOrderWalk(BinaryTree<int> current, List<int> path)
+    {
+        if (current == null)
+        {
+            return path.ToArray();
+        }
+
+
+        inOrderWalk(current.left!, path);
+        path.Add(current.value);
+        inOrderWalk(current.right!, path);
+
+        return path.ToArray();
+    }
+
+    static public int[] inOrderSearch(BinaryTree<int> head)
+    {
+        return inOrderWalk(head, new List<int>());
+    }
+
+    static int[] postOrderWalk(BinaryTree<int> current, List<int> path)
+    {
+        if (current == null)
+        {
+            return path.ToArray();
+        }
+
+
+        postOrderWalk(current.left!, path);
+        postOrderWalk(current.right!, path);
+        path.Add(current.value);
+
+        return path.ToArray();
+    }
+
+    static public int[] postOrderSearch(BinaryTree<int> head)
+    {
+        return postOrderWalk(head, new List<int>());
+    }
 }
 
 public class Sort

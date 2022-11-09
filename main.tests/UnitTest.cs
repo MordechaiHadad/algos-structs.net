@@ -170,4 +170,56 @@ public class Tests
         });
 
     }
+
+    [Test]
+    public void PreOrderTest()
+    {
+        var tree = Utils.tree;
+        var result = Search.preOrderSearch(tree);
+        Assert.AreEqual(result, new int[]{
+        20,
+        10,
+        5,
+        7,
+        15,
+        50,
+        30,
+        29,
+        45,
+        100});
+    }
+
+    [Test]
+    public void PostOrderTest()
+    {
+        var tree = Utils.tree;
+        Assert.AreEqual(Search.postOrderSearch(tree), new int[]{
+        7,
+        5,
+        15,
+        10,
+        29,
+        45,
+        30,
+        100,
+        50,
+        20});
+    }
+
+    [Test]
+    public void InOrderTest()
+    {
+        var tree = Utils.tree;
+        Assert.AreEqual(Search.inOrderSearch(tree), new int[]{
+        5,
+        7,
+        10,
+        15,
+        20,
+        29,
+        30,
+        45,
+        50,
+        100});
+    }
 }
