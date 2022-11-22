@@ -296,3 +296,109 @@ public class BinaryTree<T>
     public BinaryTree<T>? left { get; set; }
     public BinaryTree<T>? right { get; set; }
 }
+
+public class MinHeap
+{
+    public int length { get; private set; }
+    private List<int> data { get; set; }
+
+
+    public MinHeap()
+    {
+        this.data = new List<int>();
+        this.length = 0;
+
+    }
+
+    public void insert(int value)
+    {
+        this.data.Add(value);
+        this.heapifyUp(this.length);
+        this.length += 1;
+    }
+
+    public int delete()
+    {
+        if (this.length == 0)
+        {
+            return -1;
+        }
+
+        var output = this.data[0];
+        this.length -= 1;
+
+        if (this.length == 0)
+        {
+            this.data = new List<int>();
+            return output;
+        }
+        this.data[0] = this.data[this.length];
+        this.heapifyDown(0);
+        return output;
+    }
+
+    private void heapifyDown(int idx)
+    {
+
+        var lIdx = this.leftChild(idx);
+        var rIdx = this.rightChild(idx);
+
+        if (idx >= this.length || lIdx >= this.length)
+        {
+            return;
+        }
+
+        var lV = this.data[lIdx];
+        var rV = this.data[rIdx];
+        var v = this.data[idx];
+
+        if (lV > rV && v > rV)
+        {
+            this.data[idx] = rV;
+            this.data[rIdx] = v;
+            this.heapifyDown(rIdx);
+        }
+        else if (rV > lV && v > lV)
+        {
+            this.data[idx] = lV;
+            this.data[lIdx] = v;
+            this.heapifyDown(lIdx);
+        }
+    }
+
+    private void heapifyUp(int idx)
+    {
+        if (idx == 0)
+        {
+            return;
+        }
+
+        var p = this.parent(idx);
+        var parentV = this.data[p];
+        var v = this.data[idx];
+
+        if (parentV > v)
+        {
+            this.data[idx] = parentV;
+            this.data[p] = v;
+            this.heapifyUp(p);
+
+        }
+
+    }
+
+    private int parent(int idx)
+    {
+        return (idx - 1) / 2;
+    }
+
+    private int leftChild(int idx)
+    {
+        return idx * 2 + 1;
+    }
+
+    private int rightChild(int idx)
+    {
+        return idx * 2 + 2;
+    }
+}
