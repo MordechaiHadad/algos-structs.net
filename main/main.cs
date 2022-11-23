@@ -128,6 +128,58 @@ public class Search
     {
         return postOrderWalk(head, new List<int>());
     }
+
+    static public int[]? BFSGraphMatrix(List<List<int>> graph, int source, int needle) // Doesnt know and idk why
+    {
+        var seen = Enumerable.Repeat(false, graph.Count).ToArray();
+        var prev = Enumerable.Repeat(-1, graph.Count).ToArray();
+
+        seen[source] = true;
+        var q = new System.Collections.Queue();
+        q.Enqueue(source);
+
+        do
+        {
+            var curr = (int)q.Dequeue()!;
+
+            if (curr == needle)
+                break;
+
+            var adjs = graph[curr];
+            for (int i = 0; i < adjs.Count; i++)
+            {
+                if (adjs[i] == 0)
+                    continue;
+
+                if (seen[i])
+                    continue;
+
+                seen[i] = true;
+                prev[i] = curr;
+                q.Enqueue(i);
+            }
+        } while (q.Count > 0);
+
+        var currNeedle = needle;
+
+        var output = new List<int>();
+
+        while (prev[currNeedle] != -1)
+        {
+            output.Add(currNeedle);
+            currNeedle = prev[currNeedle];
+        }
+
+
+        if (output.Count > 0)
+        {
+            output.Reverse();
+            var sourceArray = new[] { source };
+            return sourceArray.Concat(output).ToArray();
+        }
+
+        return null;
+    }
 }
 
 public class Sort

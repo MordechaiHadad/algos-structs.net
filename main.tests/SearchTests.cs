@@ -111,4 +111,22 @@ public class SearchTests
         50,
         100});
     }
+
+    [Test]
+    public void BFSGraphMatrixTest() // Doesnt know and idk why
+    {
+        var matrix = Utils.matrix;
+        Assert.Multiple(() =>
+        {
+            var result = Search.BFSGraphMatrix(matrix, 0, 6);
+            var expected = new[]{
+                    0,
+                    1,
+                    4,
+                    5,
+                    6};
+            Assert.AreEqual(result, expected);
+            Assert.AreEqual(Search.BFSGraphMatrix(matrix, 6, 0), null);
+        });
+    }
 }
