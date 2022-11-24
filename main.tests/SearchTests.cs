@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace main.tests;
 
@@ -128,5 +129,26 @@ public class SearchTests
             Assert.AreEqual(result, expected);
             Assert.AreEqual(Search.BFSGraphMatrix(matrix, 6, 0), null);
         });
+    }
+
+    [Test]
+    public void DFSGraphListTest()
+    {
+        var list = new List<List<GraphEdge>>();
+        list.Add(new List<GraphEdge>() { new GraphEdge { to = 1, weight = 3 }, new GraphEdge { to = 2, weight = 1 } });
+        list.Add(new List<GraphEdge>() { new GraphEdge { to = 4, weight = 1 } });
+        list.Add(new List<GraphEdge>() { new GraphEdge { to = 3, weight = 7 } });
+        list.Add(new List<GraphEdge>());
+        list.Add(new List<GraphEdge>() { new GraphEdge { to = 1, weight = 1 }, new GraphEdge { to = 3, weight = 5 }, new GraphEdge { to = 5, weight = 2 } });
+        list.Add(new List<GraphEdge>() { new GraphEdge { to = 2, weight = 18 }, new GraphEdge { to = 6, weight = 1 } });
+        list.Add(new List<GraphEdge>() { new GraphEdge { to = 3, weight = 1 } });
+
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(Search.DFSGraphList(list, 0, 6), new[] { 0, 1, 4, 5, 6 });
+            Assert.AreEqual(Search.DFSGraphList(list, 6, 0), null);
+        });
+
+
     }
 }

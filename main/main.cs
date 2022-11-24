@@ -180,6 +180,45 @@ public class Search
 
         return null;
     }
+
+    static public int[]? DFSGraphList(List<List<GraphEdge>> graph, int source, int needle)
+    {
+        var seen = Enumerable.Repeat(false, graph.Count).ToArray();
+        var path = new List<int>();
+
+        DFSWalk(graph, source, needle, seen, path);
+
+        if(path.Count == 0)
+            return null;
+
+        return path.ToArray();
+
+    }
+
+    static private bool DFSWalk(List<List<GraphEdge>> graph, int curr, int needle, bool[] seen, List<int> path)
+    {
+        if (seen[curr])
+            return false;
+
+        seen[curr] = true;
+
+        path.Add(curr);
+        if (curr == needle)
+            return true;
+
+        var list = graph[curr];
+        for (int i = 0; i < list.Count; i++)
+        {
+            var edge = list[i];
+            if (DFSWalk(graph, edge.to, needle, seen, path))
+                return true;
+        }
+
+        path.RemoveAt(path.Count - 1);
+
+        return false;
+
+    }
 }
 
 public class Sort

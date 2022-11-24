@@ -402,3 +402,9 @@ public class MinHeap
         return idx * 2 + 2;
     }
 }
+
+public class GraphEdge
+{
+    public int to { get; set; }
+    public int weight { get; set; }
+}
