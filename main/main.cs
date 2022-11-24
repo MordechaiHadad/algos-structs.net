@@ -188,7 +188,7 @@ public class Search
 
         DFSWalk(graph, source, needle, seen, path);
 
-        if(path.Count == 0)
+        if (path.Count == 0)
             return null;
 
         return path.ToArray();
@@ -218,6 +218,82 @@ public class Search
 
         return false;
 
+    }
+
+    static public int[] DijkstraList(int source, int sink, List<List<GraphEdge>> array)
+    {
+        var seen = Enumerable.Repeat(false, array.Count).ToArray();
+        var prev = Enumerable.Repeat(-1, array.Count).ToArray();
+        var dists = Enumerable.Repeat(Double.PositiveInfinity, array.Count).ToArray();
+        dists[source] = 0;
+
+        while (hasUnvisited(seen, dists))
+        {
+            var curr = getLowestUnvisited(seen, dists);
+
+            seen[curr] = true;
+
+            var adjs = array[curr];
+            for (int i = 0; i < adjs.Count; i++)
+            {
+                var edge = adjs[i];
+                if (seen[edge.to])
+                    continue;
+
+                var dist = dists[curr] + edge.weight;
+                if (dist < dists[edge.to])
+                {
+                    dists[edge.to] = dist;
+                    prev[edge.to] = curr;
+                }
+            }
+        }
+
+        var output = new List<int>();
+        var current = sink;
+
+        while (prev[current] != -1)
+        {
+            output.Add(current);
+            current = prev[current];
+            
+        }
+
+        output.Add(source);
+        output.Reverse();
+
+        return output.ToArray();
+
+    }
+
+    static private bool hasUnvisited(bool[] seen, double[] dists)
+    {
+        for (int i = 0; i < seen.Length; i++)
+        {
+            var s = seen[i];
+            if (!s && dists[i] < double.PositiveInfinity)
+                return true;
+        }
+        return false;
+    }
+
+    static private int getLowestUnvisited(bool[] seen, double[] dists)
+    {
+        var idx = -1;
+        var lowestDistance = double.PositiveInfinity;
+
+        for (int i = 0; i < seen.Length; i++)
+        {
+            if (seen[i])
+                continue;
+
+            if (lowestDistance > dists[i])
+            {
+                lowestDistance = dists[i];
+                idx = i;
+            }
+        }
+        return idx;
     }
 }
 
