@@ -128,4 +128,34 @@ public class DatastructsTests
             Assert.AreEqual(heap.length, 4);
         });
     }
+
+    [Test]
+    public void LRUTest()
+    {
+        var lru = new LRU<string, int>(3);
+
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(lru.get("foo"), 0);
+            lru.update("foo", 69);
+            Assert.AreEqual(lru.get("foo"), 69);
+
+            lru.update("bar", 420);
+            Assert.AreEqual(lru.get("bar"), 420);
+
+            lru.update("baz", 1337);
+            Assert.AreEqual(lru.get("baz"), 1337);
+
+            lru.update("ball", 69420);
+            Assert.AreEqual(lru.get("ball"), 69420);
+            Assert.AreEqual(lru.get("foo"), 0);
+            Assert.AreEqual(lru.get("bar"), 420);
+
+            lru.update("foo", 69);
+            Assert.AreEqual(lru.get("bar"), 420);
+            Assert.AreEqual(lru.get("foo"), 69);
+
+            Assert.AreEqual(lru.get("baz"), 0);
+        });
+    }
 }

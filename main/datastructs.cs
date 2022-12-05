@@ -125,6 +125,11 @@ class Node<T>
     public T? value { get; set; }
     public Node<T>? previous { get; set; }
     public Node<T>? next { get; set; }
+
+    public static Node<T> createNode(T value)
+    {
+        return new Node<T> { value = value, previous = null, next = null };
+    }
 }
 
 public class DoublyLinkedList<T>
@@ -407,4 +412,121 @@ public class GraphEdge
 {
     public int to { get; set; }
     public int weight { get; set; }
+}
+
+public class LRU<K, V> where K : notnull
+{
+    private int length { get; set; }
+    private int capacity { get; set; }
+
+    private Node<V>? head { get; set; }
+    private Node<V>? tail { get; set; }
+
+    private Dictionary<K, Node<V>> lookup { get; set; }
+    private Dictionary<Node<V>, K> reverseLookup { get; set; }
+
+    public LRU(int capacity = 10)
+    {
+        this.length = 0;
+        this.capacity = capacity;
+
+        this.head = null;
+        this.tail = null;
+
+        this.lookup = new Dictionary<K, Node<V>>();
+        this.reverseLookup = new Dictionary<Node<V>, K>();
+    }
+
+    public void update(K key, V value)
+    {
+
+        try
+        {
+            var node = this.lookup[key];
+
+            this.detach(node);
+            this.prepend(node);
+            node.value = value;
+        }
+        catch (KeyNotFoundException)
+        {
+            var node = Node<V>.createNode(value);
+            this.length += 1;
+            this.prepend(node);
+            this.trimCache();
+
+            this.lookup.Add(key, node);
+            this.reverseLookup.Add(node, key);
+        }
+    }
+
+    public V? get(K key)
+    {
+        try
+        {
+            var node = this.lookup[key];
+
+            this.detach(node);
+            this.prepend(node);
+
+            return node.value;
+        }
+        catch (KeyNotFoundException)
+        {
+            return default;
+        }
+    }
+
+    private void detach(Node<V> node)
+    {
+        if (node.previous != null)
+            node.previous.next = node.next;
+
+        if (node.next != null)
+            node.next.previous = node.previous;
+
+        if (this.length == 1)
+        {
+            this.tail = null;
+            this.head = null;
+        }
+
+        if (this.head == node)
+            this.head = this.head.next;
+
+        if (this.tail == node)
+            this.tail = this.tail.previous;
+
+        node.next = null;
+        node.previous = null;
+    }
+
+    private void prepend(Node<V> node)
+    {
+        if (this.head == null)
+        {
+            this.head = node;
+            this.tail = node;
+            return;
+        }
+
+        node.next = this.head;
+        this.head.previous = node;
+
+        this.head = node;
+    }
+
+    private void trimCache()
+    {
+        if (this.length <= this.capacity)
+            return;
+
+        var tail = this.tail!;
+        this.detach(tail);
+
+        var key = this.reverseLookup[tail];
+        this.lookup.Remove(key);
+        this.reverseLookup.Remove(tail);
+        this.length -= 1;
+    }
 }
